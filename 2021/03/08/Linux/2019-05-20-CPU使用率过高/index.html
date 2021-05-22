@@ -1,0 +1,676 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  
+    
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="null,linux,Linux">
+  <title>CPU使用率过高 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.6.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"onlypost":false,"loading_img":"/img/loading.gif","offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"4gKDXKMgeMDeQ4ihNiiY7Hst-gzGzoHsz","app_key":"qG0hEVIpSPAPwcaoHqyT8osn","server_url":"https://4gkdxkmg.lc-cn-n1-shared.com"}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 40vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/golang/">
+                <i class="iconfont icon-home-fill"></i>
+                golang
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/img.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="CPU使用率过高">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-03-08 21:18" pubdate>
+        2021年3月8日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.2k 字
+    </span>
+  
+
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2">
+      
+    </div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">CPU使用率过高</h1>
+            
+              <p class="note note-info">
+                
+                  本文最后更新于：2021年5月3日 晚上
+                
+              </p>
+            
+            <div class="markdown-body">
+              <h2 id="cpu使用率"><a href="#cpu使用率" class="headerlink" title="cpu使用率"></a>cpu使用率</h2><p>通常使用linux自带的工具<code>top,ps</code>来查看CPU的使用率</p>
+<h3 id="什么是CPU的使用率"><a href="#什么是CPU的使用率" class="headerlink" title="什么是CPU的使用率?"></a>什么是CPU的使用率?</h3><p>linux系统是一个多任务系统, 系统将CPU划分成很短的时间片,通过调度器分配给各个任务使用,造成多任务运行的错觉. </p>
+<p>为了维护CPU的时间片, Linux系统事前定义了节拍率,在内核中使用HZ表示, 使用全局变量Jiffies来记录开机以来的节拍率. 每发生一次中断, 值加一. </p>
+<p>CPU使用率,除了空闲时间外其他时间占总CPU的时间百分比, 用公式表示:</p>
+<p><img src="../../image/Linux/CPU%E4%BD%BF%E7%94%A8%E7%8E%87%E5%85%AC%E5%BC%8F1.png" alt="img"></p>
+<p>事实上为了计算CPU使用率. 性能工具一般都会隔一段时间取两个值,做差后计算这段时间的平均CPU使用率:</p>
+<p><img src="../../image/Linux/CPU%E4%BD%BF%E7%94%A8%E7%8E%87%E5%85%AC%E5%BC%8F2.png" alt="img"></p>
+<p>如何查看CPU的使用率?</p>
+<ul>
+<li>top 显示了总体CPU和内存的使用情况. 已经各个进程的资源的使用情况</li>
+<li>ps则只显示了每个进程的资源使用情况</li>
+</ul>
+<p>top的输出:</p>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs tap">top - 15:28:47 up<span class="hljs-number"> 32 </span>min, <span class="hljs-number"> 2 </span>users,  load average: 0.00, 0.01, 0.02<br>Tasks:<span class="hljs-number"> 115 </span>total,  <span class="hljs-number"> 1 </span>running,<span class="hljs-number"> 114 </span>sleeping,  <span class="hljs-number"> 0 </span>stopped,  <span class="hljs-number"> 0 </span>zombie<br>%Cpu(s):  0.0 us,  0.0 sy,  0.0 ni,100.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st<br>KiB Mem : <span class="hljs-number"> 7992344 </span>total, <span class="hljs-number"> 7655884 </span>free,  <span class="hljs-number"> 152312 </span>used,  <span class="hljs-number"> 184148 </span>buff/cache<br>KiB Swap: <span class="hljs-number"> 4063228 </span>total, <span class="hljs-number"> 4063228 </span>free,       <span class="hljs-number"> 0 </span>used. <span class="hljs-number"> 7584852 </span>avail Mem <br><br>   PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND   <br> <span class="hljs-number"> 1599 </span>root     <span class="hljs-number"> 20 </span> <span class="hljs-number"> 0 </span><span class="hljs-number"> 161952 </span> <span class="hljs-number"> 2208 </span> <span class="hljs-number"> 1556 </span>R   0.3  0.0   0:00.02 top       <br>    <span class="hljs-number"> 1 </span>root     <span class="hljs-number"> 20 </span> <span class="hljs-number"> 0 </span><span class="hljs-number"> 128008 </span> <span class="hljs-number"> 6572 </span> <span class="hljs-number"> 4152 </span>S   0.0  0.1   0:01.53 systemd   <br>    <span class="hljs-number"> 2 </span>root     <span class="hljs-number"> 20 </span> <span class="hljs-number"> 0 </span>     <span class="hljs-number"> 0 </span>    <span class="hljs-number"> 0 </span>    <span class="hljs-number"> 0 </span>S   0.0  0.0   0:00.01 kthreadd  <br>    <span class="hljs-number"> 3 </span>root     <span class="hljs-number"> 20 </span> <span class="hljs-number"> 0 </span>     <span class="hljs-number"> 0 </span>    <span class="hljs-number"> 0 </span>    <span class="hljs-number"> 0 </span>S   0.0  0.0   0:00.04 ksoftirqd+<br>    <span class="hljs-number"> 5 </span>root      <span class="hljs-number"> 0 </span>-20      <span class="hljs-number"> 0 </span>    <span class="hljs-number"> 0 </span>    <span class="hljs-number"> 0 </span>S   0.0  0.0   0:00.00 kworker/0+<br>    <span class="hljs-number"> 6 </span>root     <span class="hljs-number"> 20 </span> <span class="hljs-number"> 0 </span>     <span class="hljs-number"> 0 </span>    <span class="hljs-number"> 0 </span>    <span class="hljs-number"> 0 </span>S   0.0  0.0   0:00.05 kworker/u+<br>    <span class="hljs-number"> 7 </span>root      rt  <span class="hljs-number"> 0 </span>     <span class="hljs-number"> 0 </span>    <span class="hljs-number"> 0 </span>    <span class="hljs-number"> 0 </span>S   0.0  0.0   0:00.00 migration+<br>    <span class="hljs-number"> 8 </span>root     <span class="hljs-number"> 20 </span> <span class="hljs-number"> 0 </span>     <span class="hljs-number"> 0 </span>    <span class="hljs-number"> 0 </span>    <span class="hljs-number"> 0 </span>S   0.0  0.0   0:00.00 rcu_bh    <br>    <span class="hljs-number"> 9 </span>root     <span class="hljs-number"> 20 </span> <span class="hljs-number"> 0 </span>     <span class="hljs-number"> 0 </span>    <span class="hljs-number"> 0 </span>    <span class="hljs-number"> 0 </span>S   0.0  0.0   0:00.26 rcu_sched <br>   <span class="hljs-number"> 10 </span>root      <span class="hljs-number"> 0 </span>-20      <span class="hljs-number"> 0 </span>    <span class="hljs-number"> 0 </span>    <span class="hljs-number"> 0 </span>S   0.0  0.0   0:00.00 lru-add-d+<br>   <span class="hljs-number"> 11 </span>root      rt  <span class="hljs-number"> 0 </span>     <span class="hljs-number"> 0 </span>    <span class="hljs-number"> 0 </span>    <span class="hljs-number"> 0 </span>S   0.0  0.0   0:00.00 watchdog/0<br>   <span class="hljs-number"> 12 </span>root      rt  <span class="hljs-number"> 0 </span>     <span class="hljs-number"> 0 </span>    <span class="hljs-number"> 0 </span>    <span class="hljs-number"> 0 </span>S   0.0  0.0   0:00.00 watchdog/1<br>   <span class="hljs-number"> 13 </span>root      rt  <span class="hljs-number"> 0 </span>     <span class="hljs-number"> 0 </span>    <span class="hljs-number"> 0 </span>    <span class="hljs-number"> 0 </span>S   0.0  0.0   0:00.02 migration+<br>   <span class="hljs-number"> 14 </span>root     <span class="hljs-number"> 20 </span> <span class="hljs-number"> 0 </span>     <span class="hljs-number"> 0 </span>    <span class="hljs-number"> 0 </span>    <span class="hljs-number"> 0 </span>S   0.0  0.0   0:00.01 ksoftirqd+<br>   <span class="hljs-number"> 16 </span>root      <span class="hljs-number"> 0 </span>-20      <span class="hljs-number"> 0 </span>    <span class="hljs-number"> 0 </span>    <span class="hljs-number"> 0 </span>S   0.0  0.0   0:00.00 kworker/1+<br>   <span class="hljs-number"> 18 </span>root     <span class="hljs-number"> 20 </span> <span class="hljs-number"> 0 </span>     <span class="hljs-number"> 0 </span>    <span class="hljs-number"> 0 </span>    <span class="hljs-number"> 0 </span>S   0.0  0.0   0:00.00 kdevtmpfs <br>   <span class="hljs-number"> 19 </span>root      <span class="hljs-number"> 0 </span>-20      <span class="hljs-number"> 0 </span>    <span class="hljs-number"> 0 </span>    <span class="hljs-number"> 0 </span>S   0.0  0.0   0:00.00 netns  <br></code></pre></td></tr></table></figure>
+
+<p>第三行为CPU的使用率的输出:</p>
+<ul>
+<li><p>user (缩写为us) 代表用户态CPU时间, 不包含nice时间,但是包含guest的时间</p>
+</li>
+<li><p>system(缩写为sys) 代表内核态CPU时间</p>
+</li>
+<li><p>nice(缩写为ni) 代表低优先级用户态CPU时间,</p>
+</li>
+<li><p>idle(缩写为id) 代表空闲时间.  不包括I/O的时间</p>
+</li>
+<li><p>iowait(缩写为wa) 代表等待I/O的CPU时间</p>
+</li>
+<li><p>irq(缩写为hi) 代表处理硬中断的时间 </p>
+</li>
+<li><p>softtirq(缩写为si) 代表处理软中断的CPU时间</p>
+</li>
+<li><p>steal(缩写为st) 代表当系统运行在虚拟机中的时候,被其他虚拟机中的CPU时间.</p>
+</li>
+</ul>
+<p>按数字1 可以切到每个CPU的使用率. </p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs vim">top - <span class="hljs-number">15</span>:<span class="hljs-number">42</span>:<span class="hljs-number">45</span> <span class="hljs-keyword">up</span> <span class="hljs-number">46</span> <span class="hljs-built_in">min</span>,  <span class="hljs-number">2</span> users,  load average: <span class="hljs-number">0.00</span>, <span class="hljs-number">0.01</span>, <span class="hljs-number">0.02</span><br>Task<span class="hljs-variable">s:</span> <span class="hljs-number">115</span> total,   <span class="hljs-number">1</span> running, <span class="hljs-number">114</span> sleeping,   <span class="hljs-number">0</span> stopped,   <span class="hljs-number">0</span> zombie<br>%Cpu0  :  <span class="hljs-number">0.0</span> us,  <span class="hljs-number">0.3</span> <span class="hljs-keyword">sy</span>,  <span class="hljs-number">0.0</span> ni, <span class="hljs-number">99.7</span> id,  <span class="hljs-number">0.0</span> <span class="hljs-keyword">wa</span>,  <span class="hljs-number">0.0</span> <span class="hljs-keyword">hi</span>,  <span class="hljs-number">0.0</span> si,  <span class="hljs-number">0.0</span> <span class="hljs-keyword">st</span><br>%Cpu1  :  <span class="hljs-number">0.0</span> us,  <span class="hljs-number">0.0</span> <span class="hljs-keyword">sy</span>,  <span class="hljs-number">0.0</span> ni,<span class="hljs-number">100.0</span> id,  <span class="hljs-number">0.0</span> <span class="hljs-keyword">wa</span>,  <span class="hljs-number">0.0</span> <span class="hljs-keyword">hi</span>,  <span class="hljs-number">0.0</span> si,  <span class="hljs-number">0.0</span> <span class="hljs-keyword">st</span><br></code></pre></td></tr></table></figure>
+
+<p>每个进程都一个%CPU的列, 代表进程CPU的使用率, 打算用户态和内核态CPU使用率的总和:</p>
+<ul>
+<li><p>包括进程的用户空间使用的CPU</p>
+</li>
+<li><p>通过系统调用的内核CPU</p>
+</li>
+<li><p>就绪队列运行CPU</p>
+</li>
+<li><p>在虚拟环境下,还包含虚拟机占用的CPU </p>
+</li>
+</ul>
+<p>在top的输出结果中没有细分进程的用户态CPU和内核态CPU, 如果想要查看进程的详情情况,使用pidstat</p>
+<p>使用<code>pidstat</code>每间隔1秒暂时进程的5组CPU使用率:</p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs llvm">[root<span class="hljs-title">@localhost</span> ~]# pidstat <span class="hljs-number">1</span> <span class="hljs-number">5</span><br>Linux <span class="hljs-number">3.10</span>.<span class="hljs-number">0</span><span class="hljs-number">-862</span>.el<span class="hljs-number">7</span>.<span class="hljs-keyword">x</span><span class="hljs-number">86</span>_<span class="hljs-number">64</span> (localhost.localdomain) 	<span class="hljs-number">06</span>/<span class="hljs-number">15</span>/<span class="hljs-number">2019</span> 	_x<span class="hljs-number">86</span>_<span class="hljs-number">64</span>_	(<span class="hljs-number">2</span> CPU)<br><br><span class="hljs-number">05</span>:<span class="hljs-number">27</span>:<span class="hljs-number">30</span> PM   UID       PID    <span class="hljs-variable">%usr</span> <span class="hljs-variable">%system</span>  <span class="hljs-variable">%guest</span>    <span class="hljs-variable">%CPU</span>   CPU  Command<br><br><span class="hljs-number">05</span>:<span class="hljs-number">27</span>:<span class="hljs-number">31</span> PM   UID       PID    <span class="hljs-variable">%usr</span> <span class="hljs-variable">%system</span>  <span class="hljs-variable">%guest</span>    <span class="hljs-variable">%CPU</span>   CPU  Command<br><br><span class="hljs-number">05</span>:<span class="hljs-number">27</span>:<span class="hljs-number">32</span> PM   UID       PID    <span class="hljs-variable">%usr</span> <span class="hljs-variable">%system</span>  <span class="hljs-variable">%guest</span>    <span class="hljs-variable">%CPU</span>   CPU  Command<br><span class="hljs-number">05</span>:<span class="hljs-number">27</span>:<span class="hljs-number">33</span> PM     <span class="hljs-number">0</span>      <span class="hljs-number">2585</span>    <span class="hljs-number">0.99</span>    <span class="hljs-number">0.00</span>    <span class="hljs-number">0.00</span>    <span class="hljs-number">0.99</span>     <span class="hljs-number">0</span>  pidstat<br><br><span class="hljs-number">05</span>:<span class="hljs-number">27</span>:<span class="hljs-number">33</span> PM   UID       PID    <span class="hljs-variable">%usr</span> <span class="hljs-variable">%system</span>  <span class="hljs-variable">%guest</span>    <span class="hljs-variable">%CPU</span>   CPU  Command<br><span class="hljs-number">05</span>:<span class="hljs-number">27</span>:<span class="hljs-number">34</span> PM     <span class="hljs-number">0</span>      <span class="hljs-number">2585</span>    <span class="hljs-number">0.00</span>    <span class="hljs-number">1.00</span>    <span class="hljs-number">0.00</span>    <span class="hljs-number">1.00</span>     <span class="hljs-number">0</span>  pidstat<br><br><span class="hljs-number">05</span>:<span class="hljs-number">27</span>:<span class="hljs-number">34</span> PM   UID       PID    <span class="hljs-variable">%usr</span> <span class="hljs-variable">%system</span>  <span class="hljs-variable">%guest</span>    <span class="hljs-variable">%CPU</span>   CPU  Command<br><br>Average:      UID       PID    <span class="hljs-variable">%usr</span> <span class="hljs-variable">%system</span>  <span class="hljs-variable">%guest</span>    <span class="hljs-variable">%CPU</span>   CPU  Command<br>Average:        <span class="hljs-number">0</span>      <span class="hljs-number">2585</span>    <span class="hljs-number">0.20</span>    <span class="hljs-number">0.20</span>    <span class="hljs-number">0.00</span>    <span class="hljs-number">0.40</span>     -  pidstat<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>%usr 用户态CPU使用率</li>
+<li>%system 内核态CPU使用率</li>
+<li>%guest 运行虚拟机CPU使用率 </li>
+<li>%wait 等待CPU使用率</li>
+<li>%CPU 总的CPU使用率 </li>
+</ul>
+<p>最后Average部分,计算了5组数据的平均值</p>
+
+              
+
+<h2 id="猜你喜欢">猜你喜欢</h2>
+<ul>
+  
+    <li>
+      <a href="/2021/03/08/Linux/2019-04-06-平均负载/" rel="recommend">平均负载</a>
+      <span></span>
+    </li>
+  
+    <li>
+      <a href="/2021/03/08/Linux/2019-04-07-CPU上下文切换/" rel="recommend">CPU上下文切换</a>
+      <span></span>
+    </li>
+  
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Linux/">Linux</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/linux/">linux</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/03/08/Linux/2019-04-07-CPU%E4%B8%8A%E4%B8%8B%E6%96%87%E5%88%87%E6%8D%A2/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">CPU上下文切换</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments">
+                
+                
+  <script type="text/javascript">
+    // Fluid.utils.waitElementVisible('comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'https://github.com/Jack1c/Jack1c.github.io');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      s.setAttribute("async","async")
+      document.getElementById('comments').appendChild(s);
+    // })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+  <div id="bottom">
+  <div id="bottom-drawer" class="bottom-drawer">
+    
+    <div id="toc-mobile">
+      <div class="toc-body" id="toc-body-mobile"></div>
+    </div>
+  </div>
+  <div id="bottom-tab">
+    <a class="sub-menu" onclick="showBottomDrawer(this, '#bottom-drawer .sidebar')">
+      <i class="iconfont"></i> 章节
+    </a>
+    <a class="sub-menu" onclick="showBottomDrawer(this, '#bottom-drawer #toc-mobile')">
+      <i class="iconfont"></i> 目录
+    </a>
+    <a href="#comments" class="sub-menu" onclick="showBottomDrawer(this, '#comments')"> 
+      <i class="iconfont"></i> 评论
+    </a>
+  </div>
+</div>
+
+<script>
+  document.onreadystatechange = function(e) {
+    let drawer = $('#bottom-drawer')
+    if (drawer.height() <= 0) return
+    window.tocbot.init({
+      tocSelector     : '#toc-body-mobile',
+      contentSelector : '.markdown-body',
+      headingSelector : 'h1,h2,h3,h4',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : 20
+    });
+  } 
+  
+  function showBottomDrawer(e, sel){
+    let tab = document.querySelector('#bottom-tab')
+    tab.childNodes.forEach((n) => {
+      if(n != e && n.classList) n.classList.remove("active")
+    })
+    if (sel != "#comments") e.classList.toggle("active")
+
+    let drawer = document.querySelector('#bottom-drawer')
+    let s = document.querySelector(sel)
+    
+    drawer.childNodes.forEach((n) => {
+      if(n != s && n.classList) n.classList.remove("active")
+    })
+    s.classList.toggle("active")
+
+    if (sel == "#comments") {
+      drawer.classList.remove("active")
+      return
+    } 
+
+    if (s.classList.contains("active") && !drawer.classList.contains("active")) {
+      drawer.classList.add("active")
+    }
+
+    if (!s.classList.contains("active") && drawer.classList.contains("active")) {
+      drawer.classList.remove("active")
+    }
+  }
+</script>
+
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.2/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  let sidebarBody =  document.querySelector(".sidebar .sidebar-body")
+  let sidebarActive = document.querySelector(".sidebar .is-active-li")
+  let bc = sidebarBody.getBoundingClientRect()
+  let ac = sidebarActive.getBoundingClientRect()
+  let t = ac.y - bc.y - bc.height / 2
+  if (t > 0){
+    sidebarBody.scrollTo({
+      top: t,
+      behavior: 'smooth'
+    })
+  }
+</script>
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>
